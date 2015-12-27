@@ -14,7 +14,7 @@ module.exports = {
   node_modulesSource: 'node_modules/**/*.js',
   dtsSource: [
     'typings/**/*.ts', 
-    './jspm_packages/**/*.d.ts'
+    clientSourceRoot + 'jspm_packages/**/*.d.ts'
   ],
   clientSourceRoot: clientSourceRoot,
   clientOutputRoot: clientOutputRoot,

@@ -48,7 +48,7 @@ gulp.task('watch', function(callback) {
 });
 
 gulp.task('build-client-js', function () {
-  return gulp.src(paths.clientTsSource, {
+  return gulp.src(paths.clientJsSource, {
       base: paths.clientSourceRoot
     })
     .pipe(gulp.dest(paths.clientOutputRoot));
