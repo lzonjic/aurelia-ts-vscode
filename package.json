@@ -1,0 +1,48 @@
+{
+    "name": "au-fullstack",
+    "version": "0.0.1",
+    "description": "A fullstack typescript skeleton with Aurelia, jspm, express, and gulp.",
+    "keywords": [
+        "typescript",
+        "ts",
+        "express",
+        "express4",
+        "aurelia",
+        "node",
+        "fullstack",
+        "gulp",
+        "node",
+        "jspm"
+    ],
+    "main": "gulpfile.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Lino Zonjic",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.13.3",
+        "jspm": "^0.16.19",
+        "tsd": "^0.6.5"
+    },
+    "devDependencies": {
+        "autoprefixer": "^6.2.2",
+        "babel": "^5.8.23",
+        "browser-sync": "^2.10.1",
+        "del": "^2.2.0",
+        "gulp": "^3.9.0",
+        "gulp-babel": "^6.1.1",
+        "gulp-changed": "^1.3.0",
+        "gulp-plumber": "^1.0.1",
+        "gulp-postcss": "^6.0.1",
+        "gulp-rename": "^1.2.2",
+        "gulp-typescript": "^2.10.0",
+        "gulp-watch": "^4.3.5",
+        "nodemon": "^1.8.1",
+        "object.assign": "^4.0.3",
+        "precss": "^1.3.0",
+        "require-dir": "^0.3.0",
+        "run-sequence": "^1.1.5",
+        "vinyl-paths": "^2.1.0"
+    }
+}
