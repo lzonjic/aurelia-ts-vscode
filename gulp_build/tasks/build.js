@@ -89,13 +89,13 @@ gulp.task('build-css', function () {
 });
 
 gulp.task('build-server', function() {
-  return gulp.src([paths.node_modulesSource, paths.serverTsSource])
+  return gulp.src(paths.serverTsSource)
     .pipe(plumber())
     .pipe(sourcemaps.init({loadMaps: true}))    
     .pipe(changed(paths.serverOutputRoot, {extension: '.js'}))
     .pipe(typescript(tsProject))
     .pipe(babel(assign({}, compilerOptions, {
-      modules: 'amd'
+      modules: 'commonjs'
     })))
     .pipe(sourcemaps.write({includeContent: true}))
     .pipe(gulp.dest(paths.serverOutputRoot));
