@@ -96,12 +96,10 @@ gulp.task('build-server', function() {
     .pipe(plumber())
     .pipe(sourcemaps.init({loadMaps: true}))    
     .pipe(changed(paths.serverOutputRoot, {extension: '.js'}))
-    .pipe(typescript(tsProject, {
-      module: 'commonjs',
-      emitDecoratorMetadata: true,
-      experimentalDecorators: true
-    }))
-    //.pipe(babel(assign({}, compilerOptions)))
+    .pipe(typescript(tsProject))
+    .pipe(babel(assign({}, compilerOptions, {
+      modules: 'common'
+    })))
     .pipe(sourcemaps.write({includeContent: true}))
     .pipe(gulp.dest(paths.serverOutputRoot));
 });
