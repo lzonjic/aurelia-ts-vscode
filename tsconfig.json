@@ -5,6 +5,7 @@
     "rootDir": "src/",
     "sourceMap": true,
     "target": "es6",
+    "module": "commonjs",
     "declaration": false,
     "noImplicitAny": false,
     "noResolve": true,

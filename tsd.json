@@ -12,7 +12,7 @@
       "commit": "1da639a106527e0c4010b354a1efe52a3059a291"
     },
     "node/node.d.ts": {
-      "commit": "1da639a106527e0c4010b354a1efe52a3059a291"
+      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
     },
     "serve-static/serve-static.d.ts": {
       "commit": "1da639a106527e0c4010b354a1efe52a3059a291"
@@ -22,6 +22,15 @@
     },
     "browser-sync/browser-sync.d.ts": {
       "commit": "1da639a106527e0c4010b354a1efe52a3059a291"
+    },
+    "orchestrator/orchestrator.d.ts": {
+      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
+    },
+    "gulp/gulp.d.ts": {
+      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
+    },
+    "q/Q.d.ts": {
+      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
     }
   }
 }

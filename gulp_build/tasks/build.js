@@ -10,15 +10,15 @@ var typescript = require('gulp-typescript');
 var tsc = require('typescript');
 var babel = require('gulp-babel');
 var compilerOptions = require('../babel-options');
+var nodemon = require('nodemon');
 
 var tsProject = typescript.createProject('./tsconfig.json', { typescript: tsc });
 
 gulp.task('default', function(callback) {
   runSequence(
-    [
       'build',
-      'watch'
-    ],
+      'watch',
+      'nodemon',
     callback);
 });
 
@@ -28,8 +28,8 @@ gulp.task('default', function(callback) {
 // https://www.npmjs.com/package/gulp-run-sequence
 gulp.task('build', function(callback) {
   return runSequence(
-    //'clean',
-    ['build-client-js', 'build-client-ts', 'build-html', 'build-css', 'build-server'],
+    'clean',
+    'build-client-js', 'build-client-ts', 'build-html', 'build-css', 'build-server',
     callback
   );
 });
@@ -37,7 +37,6 @@ gulp.task('build', function(callback) {
 gulp.task('watch', function(callback) {
   return runSequence(
     [
-      'html:watch',
       'build-client-js:watch', // currently only for config.js
       'build-client-ts:watch',
       'build-html:watch',
@@ -45,6 +44,10 @@ gulp.task('watch', function(callback) {
       'build-server:watch'
     ],
     callback);
+});
+
+gulp.task('nodemon', function(callback) {
+    return nodemon('--watch dist --ignore dist\\public dist\\server.js'); 
 });
 
 gulp.task('build-client-js', function () {
@@ -89,23 +92,21 @@ gulp.task('build-css', function () {
 });
 
 gulp.task('build-server', function() {
-  return gulp.src(paths.serverTsSource)
+  return gulp.src(paths.dtsSource.concat(paths.serverTsSource))
     .pipe(plumber())
     .pipe(sourcemaps.init({loadMaps: true}))    
     .pipe(changed(paths.serverOutputRoot, {extension: '.js'}))
-    .pipe(typescript(tsProject))
-    .pipe(babel(assign({}, compilerOptions, {
-      modules: 'commonjs'
-    })))
+    .pipe(typescript(tsProject, {
+      module: 'commonjs',
+      emitDecoratorMetadata: true,
+      experimentalDecorators: true
+    }))
+    //.pipe(babel(assign({}, compilerOptions)))
     .pipe(sourcemaps.write({includeContent: true}))
     .pipe(gulp.dest(paths.serverOutputRoot));
 });
 
 // WATCH SECTION
-gulp.task('html:watch', function () {
-  return gulp.watch(paths.htmlSource, ['html']);
-});
-
 gulp.task('build-client-js:watch', function () {
   return gulp.watch(paths.clientJsSource, ['build-client-js']);
 });

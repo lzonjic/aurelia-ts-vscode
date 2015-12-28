@@ -12,12 +12,13 @@ app.get('/api/nav', (req, res) => {
     res.send({
         data: [
             'Home',
-            'About'
+            'About',
+            'Test'
         ]
     });
 });
 
-var port: number = process.env.PORT || 3000;
+var port: number = process.env.PORT || 5000;
 var server = app.listen(port, () => {
     var listeningPort: number = server.address().port;
     browserSync({
