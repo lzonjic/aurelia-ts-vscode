@@ -12,8 +12,35 @@ var babel = require('gulp-babel');
 var compilerOptions = require('../babel-options');
 var nodemon = require('nodemon');
 
-var tsClientProject = typescript.createProject(paths.clientSourceRoot + 'tsconfig.json', { typescript: tsc });
-var tsServerProject = typescript.createProject(paths.serverSourceRoot + 'tsconfig.json', { typescript: tsc });
+var tsClientProject = typescript.createProject({
+        sourceMap: true,
+        target: "es6",
+        module: "es2015",
+        declaration: false,
+        noImplicitAny: false,
+        noExternalResolve: true,
+        removeComments: true,
+        noLib: false,
+        emitDecoratorMetadata: true,
+        experimentalDecorators: true,
+        experimentalAsyncFunctions: true, 
+        typescript: tsc 
+    });
+
+var tsServerProject = typescript.createProject({
+        sourceMap: true,
+        target: "es6",
+        module: "commonjs",
+        declaration: false,
+        noImplicitAny: false,
+        noExternalResolve: true,
+        removeComments: true,
+        noLib: false,
+        emitDecoratorMetadata: true,
+        experimentalDecorators: true,
+        experimentalAsyncFunctions: true, 
+        typescript: tsc 
+    });
 
 gulp.task('default', function (callback) {
     runSequence(
