@@ -12,8 +12,7 @@ app.get('/api/nav', (req, res) => {
     res.send({
         data: [
             'Home',
-            'About',
-            'Test'
+            'About'
         ]
     });
 });

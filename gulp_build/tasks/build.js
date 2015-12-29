@@ -12,7 +12,8 @@ var babel = require('gulp-babel');
 var compilerOptions = require('../babel-options');
 var nodemon = require('nodemon');
 
-var tsProject = typescript.createProject('./tsconfig.json', { typescript: tsc });
+var tsClientProject = typescript.createProject(paths.clientSourceRoot + 'tsconfig.json', { typescript: tsc });
+var tsServerProject = typescript.createProject(paths.serverSourceRoot + 'tsconfig.json', { typescript: tsc });
 
 gulp.task('default', function (callback) {
     runSequence(
@@ -61,7 +62,7 @@ gulp.task('build-client-ts', function () {
         .pipe(plumber())
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(changed(paths.clientOutputRoot, { extension: '.js' }))
-        .pipe(typescript(tsProject))
+        .pipe(typescript(tsClientProject))
         .pipe(babel(assign({}, compilerOptions, {
             modules: 'amd'
         })))
@@ -91,7 +92,7 @@ gulp.task('build-server', function () {
         .pipe(plumber())
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(changed(paths.serverOutputRoot, { extension: '.js' }))
-        .pipe(typescript(tsProject))
+        .pipe(typescript(tsServerProject))
         .pipe(babel(assign({}, compilerOptions, {
             modules: 'common'
         })))
