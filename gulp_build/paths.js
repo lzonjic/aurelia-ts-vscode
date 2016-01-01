@@ -4,7 +4,7 @@ var serverSourceRoot = 'src/server/';
 var serverOutputRoot = 'dist/';
 
 module.exports = {
-    htmlSource: clientSourceRoot + '**/*.html',
+    htmlSource: clientSourceRoot + '**/*.{html,ico}',
     cssSource: [
         clientSourceRoot + '**/*.css'
     ],
