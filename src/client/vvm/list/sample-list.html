@@ -1,0 +1,19 @@
+<template>
+    <section>
+        <h2>${heading}</h2>
+
+        <table class="table table-hover">
+            <thead>
+                <th>Name</th>
+            </thead>
+            <tbody>
+                <tr repeat.for="item of sampleList">
+                    <td>${item.name}</td>
+                    <td>
+                        <a route-href="route:itemEdit; params.bind:{id: item.id}" class="btn btn-default">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</template>

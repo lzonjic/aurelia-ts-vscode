@@ -10,37 +10,6 @@ var typescript = require('gulp-typescript');
 var tsc = require('typescript');
 var babel = require('gulp-babel');
 var compilerOptions = require('../babel-options');
-var nodemon = require('nodemon');
-
-var tsClientProject = typescript.createProject({
-        sourceMap: true,
-        target: "es6",
-        module: "es2015",
-        declaration: false,
-        noImplicitAny: false,
-        noExternalResolve: true,
-        removeComments: true,
-        noLib: false,
-        emitDecoratorMetadata: true,
-        experimentalDecorators: true,
-        experimentalAsyncFunctions: true, 
-        typescript: tsc 
-    });
-
-var tsServerProject = typescript.createProject({
-        sourceMap: true,
-        target: "es6",
-        module: "commonjs",
-        declaration: false,
-        noImplicitAny: false,
-        noExternalResolve: true,
-        removeComments: true,
-        noLib: false,
-        emitDecoratorMetadata: true,
-        experimentalDecorators: true,
-        experimentalAsyncFunctions: true, 
-        typescript: tsc 
-    });
 
 gulp.task('default', function (callback) {
     runSequence(
@@ -52,32 +21,62 @@ gulp.task('default', function (callback) {
 
 gulp.task('build', function (callback) {
     return runSequence(
-        'clean',
-        'copy-jspm', 'build-client-ts', 'copy-html', 'build-css', 'build-server',
+        'build-client', 'build-server',
         callback
         );
 });
 
-gulp.task('watch', function (callback) {
+gulp.task('build-client', function (callback) {
     return runSequence(
-        [
-            'copy-jspm:watch', // currently only for config.js
-            'build-client-ts:watch',
-            'copy-html:watch',
-            'build-css:watch',
-            'build-server:watch'
-        ],
-        callback);
+        'clean-client',
+        'copy-jspm', 'build-client-ts', 'copy-html', 'build-css',
+        callback
+        );
 });
 
-gulp.task('nodemon', function (callback) {
-    return nodemon('--watch dist --ignore dist\\public dist\\server.js');
+gulp.task('build-server', function (callback) {
+    return runSequence(
+        'clean-server',
+        'build-server-ts',
+        callback
+        );
 });
 
 gulp.task('copy-jspm', function () {
     return gulp.src(paths.jspmSource, {
         base: paths.clientSourceRoot
     }).pipe(gulp.dest(paths.clientOutputRoot));
+});
+
+
+var tsClientProject = typescript.createProject({
+    sourceMap: true,
+    target: "es6",
+    module: "es2015",
+    declaration: false,
+    noImplicitAny: false,
+    noExternalResolve: true,
+    removeComments: true,
+    noLib: false,
+    emitDecoratorMetadata: true,
+    experimentalDecorators: true,
+    experimentalAsyncFunctions: true,
+    typescript: tsc
+});
+
+var tsServerProject = typescript.createProject({
+    sourceMap: true,
+    target: "es6",
+    module: "commonjs",
+    declaration: false,
+    noImplicitAny: false,
+    noExternalResolve: true,
+    removeComments: true,
+    noLib: false,
+    emitDecoratorMetadata: true,
+    experimentalDecorators: true,
+    experimentalAsyncFunctions: true,
+    typescript: tsc
 });
 
 // transpiles changed es6 files to SystemJS format
@@ -114,7 +113,7 @@ gulp.task('build-css', function () {
         .pipe(gulp.dest(paths.clientOutputRoot));
 });
 
-gulp.task('build-server', function () {
+gulp.task('build-server-ts', function () {
     return gulp.src(paths.dtsSource.concat(paths.serverTsSource))
         .pipe(plumber())
         .pipe(sourcemaps.init({ loadMaps: true }))
@@ -123,27 +122,16 @@ gulp.task('build-server', function () {
         .pipe(babel(assign({}, compilerOptions, {
             modules: 'common'
         })))
-        .pipe(sourcemaps.write({ includeContent: true }))
+        .pipe(sourcemaps.write('.', { 
+            includeContent: false,
+            sourceRoot: function (file) {
+                var filePath = file.sourceMap.file;
+                var pathParts = filePath.split('/');
+                for (var i = 0, filePath = ''; i < pathParts.length; i++)
+                    filePath += '../';
+                filePath += paths.serverSourceRoot;
+                return filePath;
+            }
+        }))
         .pipe(gulp.dest(paths.serverOutputRoot));
-});
-
-// WATCH SECTION
-gulp.task('copy-jspm:watch', function () {
-    return gulp.watch(paths.clientJsSource, ['copy-jspm']);
-});
-
-gulp.task('build-client-ts:watch', function () {
-    return gulp.watch(paths.clientTsSource, ['build-client-ts']);
-});
-
-gulp.task('copy-html:watch', function () {
-    return gulp.watch(paths.htmlSource, ['copy-html']);
-});
-
-gulp.task('build-css:watch', function () {
-    return gulp.watch(paths.cssSource, ['build-css']);
-});
-
-gulp.task('build-server:watch', function () {
-    return gulp.watch(paths.serverTsSource, ['build-server']);
 });

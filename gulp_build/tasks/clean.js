@@ -8,3 +8,15 @@ gulp.task('clean', function() {
   return gulp.src([paths.serverOutputRoot])
     .pipe(vinylPaths(del));
 });
+
+gulp.task('clean-client', function () {
+    return del(paths.clientOutputRoot + '**/*');
+});
+
+gulp.task('clean-server', function () {
+    return del([
+        paths.serverOutputRoot + '**/*',
+        // Delete everything except public directory
+        '!' + paths.clientOutputRoot + '**'
+    ]);
+});

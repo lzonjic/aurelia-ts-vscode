@@ -7,7 +7,7 @@ export function configure(aurelia: Aurelia) {
     .developmentLogging();
 
   //aurelia.use.plugin('aurelia-animator-css');
-
+  
   //Anyone wanting to use HTMLImports to load views, will need to install the following plugin.
   //aurelia.use.plugin('aurelia-html-import-template-loader')
 
